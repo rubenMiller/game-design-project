@@ -93,9 +93,13 @@ public class Frog : MonoBehaviour
             //jdi.GetComponentInChildren<SpriteRenderer>().enabled = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        if (coll.transform.CompareTag("Ground") && !coll.transform.CompareTag("Obstacle"))
+        if (coll.transform.CompareTag("Ground"))
         {
             readyToJump = true;
+        }
+        if (coll.transform.CompareTag("Pond"))
+        {
+            Debug.Log("You WIN!");
         }
 
 
