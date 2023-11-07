@@ -16,6 +16,7 @@ public class Frog : MonoBehaviour
     public float maxLoad = 2;
     public float upForce = 200;
     public float xForce = 70;
+    public float FrogHeight = 2;
 
     void Start()
     {
@@ -84,6 +85,7 @@ public class Frog : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        Debug.Log("Collision with: " + coll.transform.tag);
         if (coll.transform.CompareTag("Danger"))
         {
             alive = false;
@@ -91,8 +93,12 @@ public class Frog : MonoBehaviour
             //jdi.GetComponentInChildren<SpriteRenderer>().enabled = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        Debug.Log("Collission detected!");
-        readyToJump = true;
+        if (coll.transform.CompareTag("Ground") && !coll.transform.CompareTag("Obstacle"))
+        {
+            readyToJump = true;
+        }
+
+
     }
 
     public void AddJump()
