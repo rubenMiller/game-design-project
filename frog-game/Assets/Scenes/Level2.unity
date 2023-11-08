@@ -1451,7 +1451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4698100339687838494, guid: 3c58395db240e3ff5a0d8f6f577bee31, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.15
+      value: 16.44
       objectReference: {fileID: 0}
     - target: {fileID: 4698100339687838494, guid: 3c58395db240e3ff5a0d8f6f577bee31, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2338,7 +2338,8 @@ PrefabInstance:
       value: KillGround (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1604868597714942888, guid: 623155fdca50d1f1fb2524ffad75303a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 623155fdca50d1f1fb2524ffad75303a, type: 3}
