@@ -9,6 +9,7 @@ public class Frog : MonoBehaviour
     // Start is called before the first frame update
 
     public JumpDirectionIndicator jdi;
+    //public GameOverScreen gameOverScreen;
     public bool alive = true;
     private Rigidbody2D Arigidbody2D;
     private float mousePressed = 0.5f;
@@ -85,13 +86,18 @@ public class Frog : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        CrossSceneInformation.curentLevel = SceneManager.GetActiveScene().name;
         Debug.Log("Collision with: " + coll.transform.tag);
         if (coll.transform.CompareTag("Danger"))
         {
             alive = false;
             //GetComponent<SpriteRenderer>().enabled = false;
             //jdi.GetComponentInChildren<SpriteRenderer>().enabled = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            //gameOverScreen.transform.gameObject.SetActive(true);
+            SceneManager.LoadScene("Gameover", LoadSceneMode.Additive);
+            Debug.Log("You`re Dead");
+          
         }
         if (coll.transform.CompareTag("Ground"))
         {
@@ -100,6 +106,7 @@ public class Frog : MonoBehaviour
         if (coll.transform.CompareTag("Pond"))
         {
             Debug.Log("You WIN!");
+            SceneManager.LoadScene("Win");
         }
 
 

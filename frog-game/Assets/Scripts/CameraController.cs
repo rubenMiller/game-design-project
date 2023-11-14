@@ -6,7 +6,9 @@ public class CameraController : MonoBehaviour
 {
     public Transform target;
     public float speed = 5;
+    //public GameOverScreen gameOverScreen;
 
+   
     // Update is called once per frame
     void Update()
     {
