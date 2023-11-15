@@ -14,7 +14,7 @@ public class Frog : MonoBehaviour
     private Rigidbody2D Arigidbody2D;
     private float mousePressedMin, mousePressed = 0.5f;
     public bool readyToJump = false;
-    public float maxLoad = 2;
+    public float maxLoad = 3;
     public float upForce = 200;
     public float xForce = 70;
     public float FrogHeight = 2;
@@ -24,27 +24,27 @@ public class Frog : MonoBehaviour
         Arigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    /*
+    
     void FixedUpdate()
     {
         //RaycastHit2D rhit;
-        if (Physics2D.Raycast(transform.position, Vector2.down, 2 * 0.52f, LayerMask.GetMask("Default")))
+        if (Physics2D.Raycast(transform.position + new Vector3( 0.5f, 0, 0), Vector2.down, 1.02f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - new Vector3( 0.5f, 0, 0), Vector2.down, 1.02f, LayerMask.GetMask("Default")))
         {
             readyToJump = true;
         }
-        else if (Physics2D.Raycast(transform.position, Vector2.down, 1f * 2, LayerMask.GetMask("Default")))
+        else if (Physics2D.Raycast(transform.position + new Vector3( 0.5f, 0, 0), Vector2.down, 4f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - new Vector3( 0.5f, 0, 0), Vector2.down, 4f, LayerMask.GetMask("Default")))
         {
             readyToJump = false;
         }
 
-        Debug.DrawRay(transform.position, Vector2.down * 0.52f * 2, Color.black);
-    }*/
+        Debug.DrawRay(transform.position + new Vector3( 1, 0, 0), Vector2.down * 1.3f * 2, Color.black);
+    }
 
     // Update is called once per frame
     void Update()
     {
 
-        CrossSceneInformation.frogMousePressedPercentage = (mousePressed / (maxLoad - mousePressedMin));
+        CrossSceneInformation.frogMousePressedPercentage = (mousePressed / maxLoad);
         if (Arigidbody2D.velocity.y < -0.25f)
         {
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 3;
@@ -61,7 +61,7 @@ public class Frog : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Mouse0) && mousePressed > 0 || mousePressed > 2)
+        if (Input.GetKeyUp(KeyCode.Mouse0) || mousePressed > maxLoad)
         {
 
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
@@ -103,7 +103,7 @@ public class Frog : MonoBehaviour
         }
         if (coll.transform.CompareTag("Ground"))
         {
-            readyToJump = true;
+            //readyToJump = true;
         }
         if (coll.transform.CompareTag("Pond"))
         {
