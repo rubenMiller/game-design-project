@@ -12,7 +12,7 @@ public class Frog : MonoBehaviour
     //public GameOverScreen gameOverScreen;
     public bool alive = true;
     private Rigidbody2D Arigidbody2D;
-    private float mousePressed = 0.5f;
+    private float mousePressedMin, mousePressed = 0.5f;
     public bool readyToJump = false;
     public float maxLoad = 2;
     public float upForce = 200;
@@ -43,6 +43,8 @@ public class Frog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        CrossSceneInformation.frogMousePressedPercentage = (mousePressed / (maxLoad - mousePressedMin));
         if (Arigidbody2D.velocity.y < -0.25f)
         {
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 3;
@@ -78,7 +80,7 @@ public class Frog : MonoBehaviour
             //Arigidbody2D.AddForce(new Vector3(xForce * AngleRad, upForce * spacePressed, 0));
             Arigidbody2D.AddForce(jdi.Direction * upForce * mousePressed);
 
-            mousePressed = 0.5f;
+            mousePressed = mousePressedMin;
             readyToJump = false;
         }
 
