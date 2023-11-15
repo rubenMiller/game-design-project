@@ -9,9 +9,10 @@ public class Frog : MonoBehaviour
     // Start is called before the first frame update
 
     public JumpDirectionIndicator jdi;
+    //public GameOverScreen gameOverScreen;
     public bool alive = true;
     private Rigidbody2D Arigidbody2D;
-    private float mousePressed = 0.5f;
+    private float mousePressedMin, mousePressed = 0.5f;
     public bool readyToJump = false;
     public float maxLoad = 2;
     public float upForce = 200;
@@ -42,6 +43,8 @@ public class Frog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        CrossSceneInformation.frogMousePressedPercentage = (mousePressed / (maxLoad - mousePressedMin));
         if (Arigidbody2D.velocity.y < -0.25f)
         {
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 3;
@@ -77,7 +80,7 @@ public class Frog : MonoBehaviour
             //Arigidbody2D.AddForce(new Vector3(xForce * AngleRad, upForce * spacePressed, 0));
             Arigidbody2D.AddForce(jdi.Direction * upForce * mousePressed);
 
-            mousePressed = 0.5f;
+            mousePressed = mousePressedMin;
             readyToJump = false;
         }
 
@@ -85,13 +88,18 @@ public class Frog : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        CrossSceneInformation.curentLevel = SceneManager.GetActiveScene().name;
         Debug.Log("Collision with: " + coll.transform.tag);
         if (coll.transform.CompareTag("Danger"))
         {
             alive = false;
             //GetComponent<SpriteRenderer>().enabled = false;
             //jdi.GetComponentInChildren<SpriteRenderer>().enabled = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            //gameOverScreen.transform.gameObject.SetActive(true);
+            SceneManager.LoadScene("Gameover", LoadSceneMode.Additive);
+            Debug.Log("You`re Dead");
+          
         }
         if (coll.transform.CompareTag("Ground"))
         {
@@ -100,6 +108,7 @@ public class Frog : MonoBehaviour
         if (coll.transform.CompareTag("Pond"))
         {
             Debug.Log("You WIN!");
+            SceneManager.LoadScene("Win");
         }
 
 
