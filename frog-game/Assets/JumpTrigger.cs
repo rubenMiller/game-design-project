@@ -17,11 +17,20 @@ public class JumpTrigger : MonoBehaviour
 
     }
 
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.transform.TryGetComponent(out Frog frog))
         {
             frog.AddJump();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.transform.TryGetComponent(out Frog frog))
+        {
+            frog.readyToJump = false;
         }
     }
 }
