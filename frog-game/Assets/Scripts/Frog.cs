@@ -14,9 +14,9 @@ public class Frog : MonoBehaviour
     private Rigidbody2D Arigidbody2D;
     private float mousePressedMin, mousePressed = 0.5f;
     public bool readyToJump = false;
-    public float maxLoad = 3;
-    public float upForce = 200;
-    public float xForce = 70;
+    public float maxLoad = 2;
+    public float upForce = 0;
+    public float xForce = 0;
     public float FrogHeight = 2;
 
     void Start()
@@ -27,17 +27,18 @@ public class Frog : MonoBehaviour
     
     void FixedUpdate()
     {
+        Vector3 offset = new Vector3(0.5f, 0, 0);
         //RaycastHit2D rhit;
-        if (Physics2D.Raycast(transform.position + new Vector3( 0.5f, 0, 0), Vector2.down, 1.02f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - new Vector3( 0.5f, 0, 0), Vector2.down, 1.02f, LayerMask.GetMask("Default")))
+        if (Physics2D.Raycast(transform.position + offset, Vector2.down, 0.52f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 0.52f, LayerMask.GetMask("Default")))
         {
             readyToJump = true;
         }
-        else if (Physics2D.Raycast(transform.position + new Vector3( 0.5f, 0, 0), Vector2.down, 4f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - new Vector3( 0.5f, 0, 0), Vector2.down, 4f, LayerMask.GetMask("Default")))
+        else if (Physics2D.Raycast(transform.position + offset, Vector2.down, 2f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 2f, LayerMask.GetMask("Default")))
         {
             readyToJump = false;
         }
 
-        Debug.DrawRay(transform.position + new Vector3( 1, 0, 0), Vector2.down * 1.3f * 2, Color.black);
+        Debug.DrawRay(transform.position + offset, Vector2.down * 40f * 2, Color.black);
     }
 
     // Update is called once per frame
