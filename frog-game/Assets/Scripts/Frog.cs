@@ -12,9 +12,10 @@ public class Frog : MonoBehaviour
     //public GameOverScreen gameOverScreen;
     public bool alive = true;
     private Rigidbody2D Arigidbody2D;
-    private float mousePressedMin, mousePressed = 0.5f;
-    public bool readyToJump = false;
-    public float maxLoad = 2;
+    private bool _readyToJump = false;
+    public bool readyToJump  { get { return _readyToJump; } set { _readyToJump = value; } }
+    public float minJump = 0.5f;
+    public float maxJump = 2;
     public float upForce = 0;
     public float xForce = 0;
     public float FrogHeight = 2;
@@ -27,9 +28,10 @@ public class Frog : MonoBehaviour
     
     void FixedUpdate()
     {
+        /*
         Vector3 offset = new Vector3(0.5f, 0, 0);
         //RaycastHit2D rhit;
-        if (Physics2D.Raycast(transform.position + offset, Vector2.down, 0.52f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 0.52f, LayerMask.GetMask("Default")))
+        if (Physics2D.Raycast(transform.position + offset, Vector2.down, 1.02f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 1.02f, LayerMask.GetMask("Default")))
         {
             readyToJump = true;
         }
@@ -37,15 +39,15 @@ public class Frog : MonoBehaviour
         {
             readyToJump = false;
         }
-
-        Debug.DrawRay(transform.position + offset, Vector2.down * 40f * 2, Color.black);
+        */
+        //Debug.DrawRay(transform.position + offset, Vector2.down * 40f * 2, Color.black);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        CrossSceneInformation.frogMousePressedPercentage = (mousePressed / maxLoad);
+        //CrossSceneInformation.frogMousePressedPercentage = (mousePressed / maxLoad);
         if (Arigidbody2D.velocity.y < -0.25f)
         {
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 3;
@@ -55,7 +57,19 @@ public class Frog : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            
+
+            gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+            float AngleDeg = jdi.AngleDeg;
+            float AngleRad = AngleDeg * Mathf.PI / 180;
+            Arigidbody2D.velocity = Vector3.zero;
+            Arigidbody2D.AddForce(jdi.Direction * upForce * CrossSceneInformation.frogJumpForce);
+            readyToJump = false;
+        }
+
+        /*if (Input.GetKey(KeyCode.Mouse0))
         {
             //Debug.Log("Pressed Space!");
             mousePressed = mousePressed + Time.deltaTime;
@@ -83,7 +97,7 @@ public class Frog : MonoBehaviour
 
             mousePressed = mousePressedMin;
             readyToJump = false;
-        }
+        }*/
 
     }
 
@@ -104,7 +118,7 @@ public class Frog : MonoBehaviour
         }
         if (coll.transform.CompareTag("Ground"))
         {
-            //readyToJump = true;
+            readyToJump = true;
         }
         if (coll.transform.CompareTag("Pond"))
         {
