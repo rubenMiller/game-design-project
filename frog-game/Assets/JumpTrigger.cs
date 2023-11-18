@@ -30,7 +30,7 @@ public class JumpTrigger : MonoBehaviour
     {
         if (col.transform.TryGetComponent(out Frog frog))
         {
-            frog.readyToJump = false;
+            frog.RemoveJump();
         }
     }
 }

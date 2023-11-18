@@ -11,4 +11,5 @@ public static class CrossSceneInformation
     private static float defaultFrogJumpForce = 1;
     public static float frogJumpForce  { get { return defaultFrogJumpForce; } set { defaultFrogJumpForce = value; } }
 
+    public static Vector3 dir = new Vector3(0, 0, 0);
 }

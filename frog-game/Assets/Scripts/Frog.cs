@@ -13,7 +13,7 @@ public class Frog : MonoBehaviour
     public bool alive = true;
     private Rigidbody2D Arigidbody2D;
     private bool _readyToJump = false;
-    public bool readyToJump  { get { return _readyToJump; } set { _readyToJump = value; } }
+    public bool readyToJump  { get { return _readyToJump; } private set { Debug.Log("Jump true"); _readyToJump = value; } }
     public float minJump = 0.5f;
     public float maxJump = 2;
     public float upForce = 0;
@@ -28,24 +28,27 @@ public class Frog : MonoBehaviour
     
     void FixedUpdate()
     {
-        /*
+        
         Vector3 offset = new Vector3(0.5f, 0, 0);
+        float heightFrog = 0.52f;
         //RaycastHit2D rhit;
-        if (Physics2D.Raycast(transform.position + offset, Vector2.down, 1.02f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 1.02f, LayerMask.GetMask("Default")))
+        if (Physics2D.Raycast(transform.position + offset, Vector2.down, heightFrog, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, heightFrog, LayerMask.GetMask("Default")))
         {
+            Debug.Log("Jump set by raycast");
             readyToJump = true;
         }
         else if (Physics2D.Raycast(transform.position + offset, Vector2.down, 2f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 2f, LayerMask.GetMask("Default")))
         {
             readyToJump = false;
         }
-        */
+        
         //Debug.DrawRay(transform.position + offset, Vector2.down * 40f * 2, Color.black);
     }
 
     // Update is called once per frame
     void Update()
     {
+        CrossSceneInformation.dir = jdi.Direction * upForce * CrossSceneInformation.frogJumpForce;
 
         //CrossSceneInformation.frogMousePressedPercentage = (mousePressed / maxLoad);
         if (Arigidbody2D.velocity.y < -0.25f)
@@ -65,7 +68,9 @@ public class Frog : MonoBehaviour
             float AngleDeg = jdi.AngleDeg;
             float AngleRad = AngleDeg * Mathf.PI / 180;
             Arigidbody2D.velocity = Vector3.zero;
-            Arigidbody2D.AddForce(jdi.Direction * upForce * CrossSceneInformation.frogJumpForce);
+            
+            Arigidbody2D.velocity = CrossSceneInformation.dir;
+            //Arigidbody2D.AddForce(jdi.Direction * upForce * CrossSceneInformation.frogJumpForce);
             readyToJump = false;
         }
 
@@ -104,7 +109,7 @@ public class Frog : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         CrossSceneInformation.curentLevel = SceneManager.GetActiveScene().name;
-        Debug.Log("Collision with: " + coll.transform.tag);
+        //Debug.Log("Collision with: " + coll.transform.tag);
         if (coll.transform.CompareTag("Danger"))
         {
             alive = false;
@@ -113,16 +118,16 @@ public class Frog : MonoBehaviour
 
             //gameOverScreen.transform.gameObject.SetActive(true);
             SceneManager.LoadScene("Gameover", LoadSceneMode.Additive);
-            Debug.Log("You`re Dead");
+            //Debug.Log("You`re Dead");
           
         }
         if (coll.transform.CompareTag("Ground"))
         {
-            readyToJump = true;
+            //readyToJump = true;
         }
         if (coll.transform.CompareTag("Pond"))
         {
-            Debug.Log("You WIN!");
+            //Debug.Log("You WIN!");
             SceneManager.LoadScene("Win");
         }
 
@@ -131,10 +136,15 @@ public class Frog : MonoBehaviour
 
     public void AddJump()
     {
-        Debug.Log("Additional Jump");
+        Debug.Log("Jump set by jumpbox");
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         Arigidbody2D.velocity = Vector3.zero;
         readyToJump = true;
+    }
+
+    public void RemoveJump()
+    {
+        readyToJump = false;
     }
 
 }
