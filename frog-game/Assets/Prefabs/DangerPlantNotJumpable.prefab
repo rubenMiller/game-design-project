@@ -132,9 +132,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4925775057061214282, guid: 75eec0b2533d9ea039cd1aef61c1b0d1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6368651073337879848, guid: 75eec0b2533d9ea039cd1aef61c1b0d1, type: 3}
       propertyPath: m_Name
       value: DangerPlantNotJumpable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6595144666906723753, guid: 75eec0b2533d9ea039cd1aef61c1b0d1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

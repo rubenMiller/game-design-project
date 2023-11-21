@@ -13,7 +13,7 @@ public class Frog : MonoBehaviour
     public bool alive = true;
     private Rigidbody2D Arigidbody2D;
     private bool _readyToJump = false;
-    public bool readyToJump  { get { return _readyToJump; } private set { Debug.Log("Jump true"); _readyToJump = value; } }
+    public bool readyToJump  { get { return _readyToJump; } private set {  _readyToJump = value; } }
     public float minJump = 0.5f;
     public float maxJump = 2;
     public float upForce = 0;
@@ -34,7 +34,7 @@ public class Frog : MonoBehaviour
         //RaycastHit2D rhit;
         if (Physics2D.Raycast(transform.position + offset, Vector2.down, heightFrog, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, heightFrog, LayerMask.GetMask("Default")))
         {
-            Debug.Log("Jump set by raycast");
+            //Debug.Log("Jump set by raycast");
             readyToJump = true;
         }
         else if (Physics2D.Raycast(transform.position + offset, Vector2.down, 2f, LayerMask.GetMask("Default")) || Physics2D.Raycast(transform.position - offset, Vector2.down, 2f, LayerMask.GetMask("Default")))
@@ -136,7 +136,7 @@ public class Frog : MonoBehaviour
 
     public void AddJump()
     {
-        Debug.Log("Jump set by jumpbox");
+        //Debug.Log("Jump set by jumpbox");
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         Arigidbody2D.velocity = Vector3.zero;
         readyToJump = true;
