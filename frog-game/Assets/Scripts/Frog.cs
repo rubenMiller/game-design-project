@@ -19,6 +19,11 @@ public class Frog : MonoBehaviour
     public float upForce = 0;
     public float xForce = 0;
     public float FrogHeight = 2;
+    private string state = "neutral";
+    public Sprite[] CookieLife;
+    public SpriteRenderer sprite;
+    private string xOrientation = "right";
+
 
     void Start()
     {
@@ -51,19 +56,49 @@ public class Frog : MonoBehaviour
         CrossSceneInformation.dir = jdi.Direction * upForce * CrossSceneInformation.frogJumpForce;
 
         //CrossSceneInformation.frogMousePressedPercentage = (mousePressed / maxLoad);
-        if (Arigidbody2D.velocity.y < -0.25f)
+        if (Arigidbody2D.velocity.y < -0.05f)
         {
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 3;
+            state = "landing";
+            Debug.Log(state);
         }
+        if (Arigidbody2D.velocity.y == 0)
+        {
+            state = "neutral";
+        }
+
+
+        if (state == "neutral")
+        {
+            sprite.sprite = CookieLife[0];
+        }
+        if (state == "jumping")
+        {
+            sprite.sprite = CookieLife[1];
+        }
+        if (state == "landing")
+        {
+            sprite.sprite = CookieLife[2];
+        }     
+
         if (!readyToJump || !alive)
         {
             return;
         }
 
+        if(Arigidbody2D.velocity.x >= 0 && xOrientation == "left")
+        {
+            sprite.flipX = false;
+            xOrientation = "right";
+        }
+        if(Arigidbody2D.velocity.x < 0 && xOrientation == "right")
+        {
+            sprite.flipX = true;
+            xOrientation = "left";
+        }
+
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            
-
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
             float AngleDeg = jdi.AngleDeg;
             float AngleRad = AngleDeg * Mathf.PI / 180;
@@ -72,7 +107,9 @@ public class Frog : MonoBehaviour
             Arigidbody2D.velocity = CrossSceneInformation.dir;
             //Arigidbody2D.AddForce(jdi.Direction * upForce * CrossSceneInformation.frogJumpForce);
             readyToJump = false;
+            state = "jumping";
         }
+
 
         /*if (Input.GetKey(KeyCode.Mouse0))
         {
@@ -105,6 +142,7 @@ public class Frog : MonoBehaviour
         }*/
 
     }
+
 
     void OnCollisionEnter2D(Collision2D coll)
     {
@@ -140,6 +178,7 @@ public class Frog : MonoBehaviour
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         Arigidbody2D.velocity = Vector3.zero;
         readyToJump = true;
+        state = "jumping";
     }
 
     public void RemoveJump()

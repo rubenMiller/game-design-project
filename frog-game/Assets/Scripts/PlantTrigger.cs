@@ -10,6 +10,9 @@ public class PlantTrigger : MonoBehaviour
     private float elapsedTime = 0f;
     private float stateTime = 1f;
     private string state = "neutral";
+    private SpriteRenderer myRenderer;
+    public Sprite[] CookieLife;
+    public SpriteRenderer sprite;
 
 
     void Start()
@@ -31,9 +34,18 @@ public class PlantTrigger : MonoBehaviour
             }
         }
 
-
-
-        
+        if (state == "neutral")
+        {
+            sprite.sprite = CookieLife[0];
+        }
+        if (state == "warning")
+        {
+            sprite.sprite = CookieLife[1];
+        }
+        if (state == "kill")
+        {
+            sprite.sprite = CookieLife[2];
+        }     
     }
 
     void changeState()
